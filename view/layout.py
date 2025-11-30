@@ -128,7 +128,7 @@ HTML_TEMPLATE = """
         <div class="add-fav-box">
             <h4>Adicionar Novo:</h4>
             <form action="/add_fav" method="post">
-                <input type="text" name="nome" placeholder="Nome (ex: Curso)" required>
+                <input type="text" name="nome" placeholder="Nome" required>
                 <input type="text" name="url" placeholder="Link" required>
                 <button class="search-btn" style="width:100%">Salvar Favorito</button>
             </form>
@@ -136,13 +136,13 @@ HTML_TEMPLATE = """
     </div>
 
     <div id="games" class="container">
-        <h2>Meus Jogos</h2>
+        <h2>Meus Aplicativos</h2>
         <div class="app-grid">
             {% for jogo in lista_jogos %}
             <div class="app-card" onclick="fetch('/launch_game/{{ jogo.nome }}')">🎮 {{ jogo.nome }}</div>
             {% endfor %}
         </div>
-        {% if not lista_jogos %}<p style="margin-top:20px; color:#666;">Adicione jogos na aba "Meus Jogos" no PC.</p>{% endif %}
+        {% if not lista_jogos %}<p style="margin-top:20px; color:#666;">Adicione jogos na aba "Meus Aplicativos" no PC.</p>{% endif %}
     </div>
 
     <div id="music" class="container">

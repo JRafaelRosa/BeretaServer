@@ -136,7 +136,7 @@ def main(page: ft.Page):
     picker_jogo = ft.FilePicker(on_result=add_jogo)
     page.overlay.append(picker_jogo)
     tab_jogos = ft.Container(padding=20, content=ft.Column([
-        ft.Text("Meus Jogos", size=20, weight="bold"),
+        ft.Text("Meus Aplicativos, size=20, weight="bold"),
         lista_jogos_ui,
         ft.FloatingActionButton(icon="add", text="Adicionar",
                                 on_click=lambda _: picker_jogo.pick_files(allow_multiple=False))
