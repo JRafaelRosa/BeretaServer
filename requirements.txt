@@ -1,0 +1,13 @@
+flask
+flet
+pyautogui
+qrcode
+pillow
+duckduckgo-search
+requests
+beautifulsoup4
+ytmusicapi
+psutil
+wmi; platform_system=="Windows"
+mss
+pygetwindow
