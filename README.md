@@ -54,27 +54,26 @@ Certifique-se de ter o Python instalado. Clone este repositório ou baixe os arq
 ### 2. Instalação das Dependências
 Execute o comando abaixo no terminal para instalar todas as bibliotecas necessárias:
 
-```bash
+
+```
 pip install -r requirements.txt
+```
 3. Executando o Servidor
 Inicie a aplicação com o comando:
-
-Bash
 
 python main.py
 Uma interface abrirá no seu PC exibindo o status e o QR Code. Escaneie com seu celular (conectado ao mesmo Wi-Fi) para iniciar o controle.
 
 📦 Compilação (.exe)
 Para distribuir o software sem necessidade de instalação do Python em outras máquinas, utilize o PyInstaller com o seguinte comando (otimizado para incluir assets e módulos ocultos):
-
-Bash
-
+````
 pyinstaller --noconsole --name="BeretaServer" --icon="public/img/bereta.png" --add-data "public;public" --collect-all ytmusicapi --hidden-import=pygetwindow --hidden-import=pyscreeze --hidden-import=PIL main.py
-Nota: Após gerar o executável na pasta dist/BeretaServer, é necessário criar/copiar manualmente as pastas de dados do usuário (jogos, compartilhado) para o diretório final, pois elas são dinâmicas.
+````
 
 📂 Estrutura de Diretórios
 Plaintext
 
+```
 BeretaServer/
 ├── main.py              # Entry point e Interface Desktop (Flet)
 ├── src/                 # Lógica de Negócio (Backend)
@@ -88,5 +87,5 @@ BeretaServer/
 ├── view/                # Frontend
 │   └── layout.py        # Template HTML/JS
 └── public/              # Assets (Imagens)
-
+```
 Status do Projeto: Finalizado (v1.0).
