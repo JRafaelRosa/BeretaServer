@@ -1,10 +1,9 @@
 import json
 import os
 import webbrowser
-from src.config import app, add_log
+from src.config import app, add_log, BASE_DIR
 
-ARQUIVO_FAV = "favoritos.json"
-
+ARQUIVO_FAV = os.path.join(BASE_DIR, "favoritos.json")
 
 def carregar_favoritos():
     if not os.path.exists(ARQUIVO_FAV):

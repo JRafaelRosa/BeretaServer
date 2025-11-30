@@ -1,10 +1,7 @@
 import os
 import shutil
 from flask import request, send_from_directory, redirect
-from src.config import app, add_log
-
-BASE_DIR = os.getcwd()
-PASTA_COMPARTILHADA = os.path.join(BASE_DIR, 'compartilhado')
+from src.config import app, add_log, PASTA_COMPARTILHADA
 
 if not os.path.exists(PASTA_COMPARTILHADA):
     os.makedirs(PASTA_COMPARTILHADA)

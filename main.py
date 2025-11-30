@@ -82,7 +82,7 @@ def run_flask():
 
 def main(page: ft.Page):
     page.title = "BeretaServer - Hub"
-    page.window_icon = "public/img/bereta.png"
+    page.window_icon = "public/img/bereta.ico"
     page.theme_mode = ft.ThemeMode.DARK
     page.window_width = 500
     page.window_height = 850

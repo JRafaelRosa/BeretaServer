@@ -1,8 +1,8 @@
 import os
 import json
-from src.config import app, add_log
+from src.config import app, add_log, BASE_DIR
 
-ARQUIVO_JSON = "meus_jogos.json"
+ARQUIVO_JSON = os.path.join(BASE_DIR, "meus_jogos.json")
 
 
 def carregar_jogos_json():
