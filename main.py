@@ -3,7 +3,6 @@ import flet as ft
 import socket
 import os
 from flask import request, session, redirect, render_template_string
-# --- CORREÇÃO IMPORTANTE: Adicionados carregar_config, salvar_config, get_senha ---
 from src.config import app, FOTO_PERFIL, log_messages, SERVER_TOKEN, carregar_senha, salvar_senha, carregar_config, \
     salvar_config, get_senha
 from view.layout import render_page
@@ -18,7 +17,6 @@ import src.sistema
 import src.music
 import src.gerar_qrcode as gerador_qr
 
-# --- HTML LOGIN ---
 LOGIN_HTML = """
 <!DOCTYPE html>
 <html>
@@ -46,8 +44,6 @@ LOGIN_HTML = """
 </html>
 """
 
-
-# --- SEGURANÇA ---
 @app.before_request
 def verificar_seguranca():
     if request.path.startswith('/public/') or request.path == '/login': return None
@@ -62,7 +58,7 @@ def verificar_seguranca():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if request.form.get('senha') == get_senha():  # Usa get_senha() do config
+    if request.form.get('senha') == get_senha():
         session['autenticado'] = True
         session.permanent = True
         return redirect('/')
@@ -84,7 +80,6 @@ def run_flask():
     app.run(host='0.0.0.0', port=5000, use_reloader=False, threaded=True)
 
 
-# --- INTERFACE FLET ---
 def main(page: ft.Page):
     page.title = "Smart Control - Hub"
     page.theme_mode = ft.ThemeMode.DARK
@@ -97,7 +92,6 @@ def main(page: ft.Page):
     else:
         img_avatar = ft.Icon(name="pets", size=80, color="white")
 
-    # LOGS
     log_list = ft.ListView(expand=True, spacing=5, auto_scroll=True)
 
     def update_logs():
@@ -109,7 +103,6 @@ def main(page: ft.Page):
                 page.update()
             time.sleep(0.5)
 
-    # ABA CONEXÃO
     tab_conexao = ft.Container(padding=20, content=ft.Column([
         ft.Row([img_avatar, ft.Text("Bereta Server", size=24, weight="bold")], alignment=ft.MainAxisAlignment.CENTER),
         ft.Container(content=ft.Image(src_base64=img_base64, width=250, height=250, fit=ft.ImageFit.CONTAIN),
@@ -120,7 +113,6 @@ def main(page: ft.Page):
         ft.Container(content=log_list, height=150, bgcolor="#222", border_radius=10, padding=10)
     ], horizontal_alignment=ft.CrossAxisAlignment.CENTER))
 
-    # ABA JOGOS
     lista_jogos_ui = ft.Column(scroll=ft.ScrollMode.AUTO, expand=True)
 
     def carregar_jogos_ui():
@@ -150,7 +142,7 @@ def main(page: ft.Page):
                                 on_click=lambda _: picker_jogo.pick_files(allow_multiple=False))
     ]))
 
-    # ABA FAVORITOS
+
     lista_fav_ui = ft.Column(scroll=ft.ScrollMode.AUTO, expand=True)
     input_fav_nome = ft.TextField(label="Nome", height=40)
     input_fav_url = ft.TextField(label="URL", height=40)
@@ -184,7 +176,6 @@ def main(page: ft.Page):
         lista_fav_ui
     ]))
 
-    # ABA ARQUIVOS
     lista_arquivos_ui = ft.Column(scroll=ft.ScrollMode.AUTO, expand=True)
 
     def carregar_arquivos_ui():
@@ -220,15 +211,15 @@ def main(page: ft.Page):
         lista_arquivos_ui
     ]))
 
-    # --- ABA 5: CONFIGURAÇÕES (COMPLETA) ---
+
     input_senha = ft.TextField(label="Senha Manual", password=True, can_reveal_password=True, value=get_senha())
 
-    # --- CORREÇÃO: Switch do Modo DJ ---
-    switch_dj = ft.Switch(label="Modo DJ (Fecha aba anterior)", value=carregar_config()["modo_dj"])
+
+    switch_dj = ft.Switch(label="Fechar aba de musica anterior", value=carregar_config()["modo_dj"])
 
     def salvar_config_click(e):
         if input_senha.value:
-            # Salva Senha E o estado do Modo DJ
+
             salvar_config({"senha": input_senha.value, "modo_dj": switch_dj.value})
 
             page.snack_bar = ft.SnackBar(ft.Text("Configurações salvas!"))
@@ -242,13 +233,13 @@ def main(page: ft.Page):
         input_senha,
         ft.Divider(),
         ft.Text("Comportamento", weight="bold"),
-        switch_dj,  # Botão do Modo DJ
-        ft.Text("Ative o Modo DJ para fechar a aba anterior ao tocar música.", size=12, color="grey"),
+        switch_dj,
+        ft.Text("Ative o Modo Musica para fechar a aba anterior ao tocar outra música.", size=12, color="grey"),
         ft.Divider(),
         ft.ElevatedButton("Salvar Tudo", icon="save", on_click=salvar_config_click)
     ]))
 
-    # --- TABS ---
+
     t = ft.Tabs(selected_index=0, animation_duration=300, tabs=[
         ft.Tab(text="Conexão", icon="wifi", content=tab_conexao),
         ft.Tab(text="Jogos", icon="games", content=tab_jogos),

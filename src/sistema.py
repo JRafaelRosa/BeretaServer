@@ -16,7 +16,6 @@ def get_status():
 
     temp = "--"
 
-    # TENTATIVA 1: PSUTIL (Padrão Linux/Mac/Alguns Windows)
     try:
         temps = psutil.sensors_temperatures()
         if temps:
@@ -30,7 +29,6 @@ def get_status():
     if temp == "--" and wmi:
         try:
             w = wmi.WMI(namespace="root\\wmi")
-
             temperature_info = w.MSAcpi_ThermalZoneTemperature()
             if temperature_info:
 

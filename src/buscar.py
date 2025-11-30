@@ -24,7 +24,6 @@ def search_general():
 
     html_results = f"<h3>🔎 Busca BR: {term}</h3>"
 
-    # Botão de segurança (caso nada funcione, abre no PC)
     html_results += f"""
     <div style="margin-bottom:15px;">
         <button class="btn btn-blue" onclick="fetch('/deep_search_pc?term={term}')">
@@ -34,29 +33,22 @@ def search_general():
     """
 
     try:
-        # --- ESTRATÉGIA ANTI-BLOQUEIO ---
-        # Usamos a versão HTML pura do DuckDuckGo (feita para ser leve e sem scripts)
         url = "https://html.duckduckgo.com/html/"
 
-        # Headers para parecer um celular Android
         headers = {
             "User-Agent": "Mozilla/5.0 (Linux; Android 10; SM-A205U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36",
             "Referer": "https://html.duckduckgo.com/"
         }
 
-        # Dados do formulário (kl='br-pt' FORÇA resultados do Brasil)
         payload = {
             'q': term,
             'kl': 'br-pt'
         }
 
-        # Faz a requisição POST (mais difícil de bloquear que GET)
         response = requests.post(url, data=payload, headers=headers)
 
-        # Lê o HTML
         soup = BeautifulSoup(response.text, "html.parser")
 
-        # Encontra os links (classe 'result__a')
         links = soup.find_all('a', class_='result__a')
 
         if not links:
@@ -64,19 +56,18 @@ def search_general():
 
         count = 0
         for link in links:
-            if count >= 10: break  # Limita a 10 resultados
+            if count >= 10: break
 
             href = link['href']
             title = link.text
 
-            # Tenta pegar o resumo (snippet)
+
             try:
-                # Acha o pai do link, depois o corpo do resultado
                 snippet = link.find_parent('div').find_parent('div').find('a', class_='result__snippet').text
             except:
                 snippet = "Clique para acessar"
 
-            # Remove resultados de propaganda (Yandex, etc) se houver
+
             if "duckduckgo.com" in href:
                 continue
 
@@ -108,7 +99,6 @@ def open_url():
 
 @app.route('/deep_search_pc')
 def deep_search_pc():
-    # Rota de emergência: abre o Google na tela do PC
     term = request.args.get('term')
     webbrowser.open(f"https://www.google.com/search?q={term}")
     return "OK"

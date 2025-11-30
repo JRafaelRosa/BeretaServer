@@ -8,7 +8,6 @@ import time
 import os
 import subprocess
 
-# Tenta importar pygetwindow
 try:
     import pygetwindow as gw
 except ImportError:
@@ -28,8 +27,6 @@ def abrir_navegador_modo_app(url):
     for navegador in navegadores:
         if os.path.exists(navegador):
             try:
-                # Adicionei a flag --autoplay-policy=no-user-gesture-required
-                # Isso diz pro Chrome: "Deixe tocar som mesmo sem clique"
                 subprocess.Popen([navegador, f"--app={url}", "--autoplay-policy=no-user-gesture-required"])
                 return True
             except:
@@ -53,12 +50,11 @@ def music_search():
             artist = r['artists'][0]['name'] if 'artists' in r and r['artists'] else ""
             thumb = r['thumbnails'][-1]['url'] if 'thumbnails' in r and r['thumbnails'] else ""
 
-            # --- MUDANÇA AQUI: Adicionando &autoplay=1 nos links ---
+
             if tipo == 'album':
-                link = f"https://music.youtube.com/browse/{r['browseId']}"  # Album n aceita autoplay direto facil
+                link = f"https://music.youtube.com/browse/{r['browseId']}"
                 icon = "💿"
             else:
-                # Para musicas e videos, forçamos o autoplay na URL
                 link = f"https://music.youtube.com/watch?v={r['videoId']}&autoplay=1"
                 icon = "🎵"
 
@@ -82,29 +78,21 @@ def music_search():
 def play_music_url():
     link = request.args.get('link')
     if link:
-        # --- MODO DJ (Fecha Janela Anterior) ---
         if get_modo_dj() and gw:
             try:
                 janelas = gw.getWindowsWithTitle('YouTube')
                 for w in janelas:
                     titulo = w.title.lower()
-                    # Fecha se for musica e não for curso
                     if ("music" in titulo or "youtube" in titulo) and not any(
                             x in titulo for x in ["curso", "aula", "python", "tutorial"]):
-                        # Mata janela antiga
                         os.system(f'taskkill /F /FI "WINDOWTITLE eq {w.title}"')
                         time.sleep(0.3)
                         break
             except Exception as e:
                 print(f"Erro ao matar janela: {e}")
 
-        # Abre a nova música (Com a flag de autoplay)
         abrir_navegador_modo_app(link)
 
-        # --- PLANO B (Segurança Extra) ---
-        # Se o computador for lento e o autoplay falhar,
-        # esperamos 5 segundos e apertamos Espaço para garantir o Play.
-        # (Só faz isso se o Modo DJ estiver ligado para não atrapalhar outros usos)
         if get_modo_dj():
             time.sleep(5)
             pyautogui.press('space')

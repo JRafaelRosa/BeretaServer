@@ -11,18 +11,17 @@ def generate_frames():
 
     while True:
         try:
-            # 1. Captura a tela (PyAutoGUI é nativo e compatível com tudo)
+            # Captura a tela
             img = pyautogui.screenshot()
 
-            # 2. Reduz o tamanho (Fundamental para velocidade no Wi-Fi)
+            # Reduz o tamanho
             # Reduz para 600px de largura mantendo a proporção
             base_width = 600
             w_percent = (base_width / float(img.size[0]))
             h_size = int((float(img.size[1]) * float(w_percent)))
             img = img.resize((base_width, h_size))
 
-            # 3. Desenha o cursor (Opcional, ajuda a saber onde clicar)
-            # Como o print reduzido mudou de tamanho, recalculamos a posição do mouse
+            # Desenha o cursor
             mouse_x, mouse_y = pyautogui.position()
             scale_x = img.width / pyautogui.size().width
             scale_y = img.height / pyautogui.size().height
@@ -31,8 +30,7 @@ def generate_frames():
             cx = int(mouse_x * scale_x)
             cy = int(mouse_y * scale_y)
 
-            # Desenha uma bolinha vermelha manual (pixel a pixel para não precisar de lib gráfica pesada)
-            # Se der erro aqui, o try ignora e manda a imagem sem cursor
+            # Desenha uma bolinha vermelha manual
             try:
                 from PIL import ImageDraw
                 draw = ImageDraw.Draw(img)
@@ -40,17 +38,16 @@ def generate_frames():
             except:
                 pass
 
-            # 4. Converte para Bytes (JPEG)
+            # Converte para Bytes
             frame_buffer = io.BytesIO()
-            # quality=30 deixa a imagem leve e rápida
             img.save(frame_buffer, format="JPEG", quality=30)
             frame_bytes = frame_buffer.getvalue()
 
-            # 5. Envia o pacote MJPEG
+
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
-            # Intervalo (0.1 = 10 FPS teóricos)
+
             time.sleep(0.1)
 
         except Exception as e:

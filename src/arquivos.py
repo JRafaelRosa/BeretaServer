@@ -1,9 +1,8 @@
 import os
-import shutil  # Biblioteca para copiar arquivos
+import shutil
 from flask import request, send_from_directory, redirect
 from src.config import app, add_log
 
-# Garante que a pasta seja criada na raiz do projeto
 BASE_DIR = os.getcwd()
 PASTA_COMPARTILHADA = os.path.join(BASE_DIR, 'compartilhado')
 
@@ -41,8 +40,6 @@ def remover_arquivo(nome_arquivo):
     except:
         pass
 
-
-# --- ROTAS FLASK ---
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

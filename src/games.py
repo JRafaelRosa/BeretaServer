@@ -6,7 +6,6 @@ ARQUIVO_JSON = "meus_jogos.json"
 
 
 def carregar_jogos_json():
-    """Lê o arquivo JSON e retorna uma lista de dicionários"""
     if not os.path.exists(ARQUIVO_JSON):
         return []
     try:
@@ -19,7 +18,6 @@ def carregar_jogos_json():
 def salvar_jogo_json(nome, caminho):
     """Salva um novo jogo no JSON"""
     jogos = carregar_jogos_json()
-    # Verifica se já existe
     for j in jogos:
         if j['nome'] == nome:
             return False

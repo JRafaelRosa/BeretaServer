@@ -38,7 +38,7 @@ def mouse_move():
 
 @app.route('/cmd/<action>')
 def command(action):
-    # --- MÍDIA (ATUALIZADO) ---
+    # --- MÍDIA ---
     if action == 'playpause':
         pyautogui.press('playpause')
     elif action == 'prev':
@@ -46,8 +46,7 @@ def command(action):
     elif action == 'next':
         pyautogui.press('nexttrack')
 
-    # --- NOVOS COMANDOS DE VÍDEO ---
-    # Seta Direita/Esquerda é o padrão para Disney/Netflix/YouTube
+    # Seta Direita/Esquerda para pula 10s
     elif action == 'forward':
         pyautogui.press('right')
     elif action == 'rewind':

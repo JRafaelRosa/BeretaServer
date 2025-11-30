@@ -192,7 +192,7 @@ HTML_TEMPLATE = """
 
     <div id="control" class="container">
         <button class="btn btn-blue" onclick="openFS()" style="margin-bottom:20px; border:2px solid cyan;">
-            👁️ TELA CHEIA / ZOOM
+            👁️ Espelhamento
         </button>
 
         <div class="row">
@@ -339,9 +339,6 @@ HTML_TEMPLATE = """
         const screenImg = document.getElementById('screen-img');
         const touchText = document.getElementById('touch-text');
 
-        // Função para ativar vídeo no touchpad pequeno (se quiser)
-        // Por padrão no seu código você usa o botão de Tela Cheia, mas se quiser pode ativar aqui
-        // function toggleMiniScreen() { ... } 
 
         if(touchZone) {
             let tStartX, tStartY;
