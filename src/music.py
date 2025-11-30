@@ -17,7 +17,7 @@ ytmusic = YTMusic()
 
 
 def abrir_navegador_modo_app(url):
-    """Abre em modo App e TENTA FORÇAR O AUTOPLAY"""
+    """Abre em modo App e tenta forçar autoplay"""
     navegadores = [
         r"C:\Program Files\Google\Chrome\Application\chrome.exe",
         r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
@@ -50,9 +50,9 @@ def music_search():
             artist = r['artists'][0]['name'] if 'artists' in r and r['artists'] else ""
             thumb = r['thumbnails'][-1]['url'] if 'thumbnails' in r and r['thumbnails'] else ""
 
-
             if tipo == 'album':
-                link = f"https://music.youtube.com/browse/{r['browseId']}"
+                browse_id = r['browseId']
+                link = f"ALBUM:{browse_id}"
                 icon = "💿"
             else:
                 link = f"https://music.youtube.com/watch?v={r['videoId']}&autoplay=1"
@@ -64,7 +64,7 @@ def music_search():
                 <img src="{thumb}" width="60" height="60" style="border-radius:5px; object-fit:cover; margin-right:15px;">
                 <div style="text-align:left; flex:1;">
                     <div style="font-weight:bold; color: #fff; font-size:15px;">{title}</div>
-                    <div style="color:#aaa; font-size:12px;">{icon} {artist}</div>
+                    <div style="color:#aaa; font-size:12px;">{icon} {artist} • {tipo.upper()}</div>
                 </div>
                 <div style="font-size:20px;">▶</div>
             </div>
@@ -78,6 +78,21 @@ def music_search():
 def play_music_url():
     link = request.args.get('link')
     if link:
+        if link.startswith("ALBUM:"):
+            try:
+                browse_id = link.split(":")[1]
+                album_data = ytmusic.get_album(browse_id)
+                if 'tracks' in album_data and len(album_data['tracks']) > 0:
+                    first_video_id = album_data['tracks'][0]['videoId']
+                    link = f"https://music.youtube.com/watch?v={first_video_id}&list={browse_id}&autoplay=1"
+                    add_log("Álbum detectado: Iniciando playlist.")
+                else:
+
+                    link = f"https://music.youtube.com/browse/{browse_id}"
+            except:
+                link = f"https://music.youtube.com/browse/{link.split(':')[1]}"
+
+
         if get_modo_dj() and gw:
             try:
                 janelas = gw.getWindowsWithTitle('YouTube')
@@ -97,6 +112,6 @@ def play_music_url():
             time.sleep(5)
             pyautogui.press('space')
 
-        add_log(f"Tocando Música...")
+        add_log(f"Tocando...")
 
     return "OK"
