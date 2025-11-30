@@ -6,7 +6,7 @@ O **Bereta Server** é uma solução de automação residencial e controle remot
 
 # download via drive
 ```
-https://drive.google.com/file/d/18e-w22Z88Z_TlyAZZy35kHTKKBbKlkPZ/view?usp=drive_link
+https://drive.google.com/drive/folders/1oDchDRlo9dN6nNTTIPl_4E0mY8kRXUuy?usp=sharing
 ```
 
 ## 📋 Funcionalidades
