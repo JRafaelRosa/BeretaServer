@@ -11,7 +11,7 @@ HTML_TEMPLATE = """
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Bereta Controller</title>
-    <link rel="icon" type="image/png" href="/public/img/bereta.png">
+    <link rel="icon" type="image/png" href="/public/img/bereta.ico">
     <style>
         body { background-color: #121212; color: #e0e0e0; font-family: sans-serif; margin: 0; padding-bottom: 80px; text-align: center; overflow-x: hidden; }
 
@@ -109,7 +109,7 @@ HTML_TEMPLATE = """
             <div class="app-card" onclick="fetch('/run/netflix')">📺 Netflix</div>
             <div class="app-card" onclick="fetch('/run/prime')">🎬 Prime Video</div>
             <div class="app-card" onclick="fetch('/run/ytmusic')">🎸 YT Music</div>
-            <div class="app-card" onclick="fetch('/run/chrome')">🌐 Chrome</div>
+            <div class="app-card" onclick="fetch('/run/chrome')">▶️YouTube /div>
             <div class="app-card" onclick="fetch('/run/disney')">🏰 Disney+</div>
             <div class="app-card" onclick="fetch('/run/max')">🟣 HBO Max</div>
             <div class="app-card" onclick="fetch('/run/crunchyroll')">🟠 Crunchyroll</div>

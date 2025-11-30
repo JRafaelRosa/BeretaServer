@@ -22,7 +22,7 @@ def add_log(msg):
     log_messages.append(msg)
 
 def carregar_config():
-    padrao = {"senha": "1234", "modo_dj": False}
+    padrao = {"senha": "1234", "modo_dj": True}
 
     if not os.path.exists(ARQUIVO_SETTINGS):
         try:
