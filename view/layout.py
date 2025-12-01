@@ -186,7 +186,7 @@ HTML_TEMPLATE = """
 
     <div id="caster" class="container">
         <form action="/search" method="post">
-            <input type="text" name="term" placeholder="Pesquisar... autocomplete="off">
+            <input type="text" name="term" placeholder="Pesquisar..." autocomplete="off">
             <button class="search-btn">Ir</button>
         </form>
         <div id="results">{{ results|safe }}</div>
