@@ -106,7 +106,7 @@ HTML_TEMPLATE = """
             <div class="app-card" onclick="fetch('/run/netflix')">📺 Netflix</div>
             <div class="app-card" onclick="fetch('/run/prime')">🎬 Prime Video</div>
             <div class="app-card" onclick="fetch('/run/ytmusic')">🎸 YT Music</div>
-            <div class="app-card" onclick="fetch('/run/chrome')">🌐 Chrome</div>
+            <div class="app-card" onclick="fetch('/run/youtube')">▶ Youtube</div>
             <div class="app-card" onclick="fetch('/run/disney')">🏰 Disney+</div>
             <div class="app-card" onclick="fetch('/run/max')">🟣 HBO Max</div>
             <div class="app-card" onclick="fetch('/run/crunchyroll')">🟠 Crunchyroll</div>
@@ -125,7 +125,7 @@ HTML_TEMPLATE = """
         <div class="add-fav-box">
             <h4>Adicionar Novo:</h4>
             <form action="/add_fav" method="post">
-                <input type="text" name="nome" placeholder="Nome (ex: Curso)" required>
+                <input type="text" name="nome" placeholder="Nome " required>
                 <input type="text" name="url" placeholder="Link" required>
                 <button class="search-btn" style="width:100%">Salvar Favorito</button>
             </form>
@@ -133,7 +133,7 @@ HTML_TEMPLATE = """
     </div>
 
     <div id="games" class="container">
-        <h2>Meus Jogos</h2>
+        <h2>Meus Aplicativos</h2>
         <div class="app-grid">
             {% for jogo in lista_jogos %}
             <div class="app-card" onclick="fetch('/launch_game/{{ jogo.nome }}')">🎮 {{ jogo.nome }}</div>
@@ -144,13 +144,13 @@ HTML_TEMPLATE = """
 
     <div id="music" class="container">
         <form action="/music_search" method="post">
-            <input type="text" name="term" placeholder="Música, Artista..." autocomplete="off">
+            <input type="text" name="term" placeholder="Música ..." autocomplete="off">
             <button class="search-btn" style="background:#ff0000">Buscar</button>
         </form>
 
         <button class="btn" style="margin-top:10px; background:#222; border:1px solid #444;" 
                 onclick="fetch('/play_music_url?link=https://music.youtube.com')">
-            🏠 Abrir Início / Resume
+             Resume
         </button>
 
         <div class="row" style="margin-top:15px; background:#222; padding:10px; border-radius:15px;">
@@ -165,7 +165,7 @@ HTML_TEMPLATE = """
     </div>
 
     <div id="files" class="container">
-        <h2>Transferência</h2>
+        <h2>Arquivos</h2>
         <div class="file-box">
             <h3 style="margin-top:0;">📤 Enviar para PC</h3>
             <form action="/upload" method="post" enctype="multipart/form-data">
@@ -186,7 +186,7 @@ HTML_TEMPLATE = """
 
     <div id="caster" class="container">
         <form action="/search" method="post">
-            <input type="text" name="term" placeholder="Buscar no Google/Bing..." autocomplete="off">
+            <input type="text" name="term" placeholder="Pesquisar... autocomplete="off">
             <button class="search-btn">Ir</button>
         </form>
         <div id="results">{{ results|safe }}</div>
@@ -194,7 +194,7 @@ HTML_TEMPLATE = """
 
     <div id="control" class="container">
         <button class="btn btn-blue" onclick="openFS()" style="margin-bottom:20px; border:2px solid cyan;">
-            👁️ TELA CHEIA / ZOOM
+            👁️ Espelhamento
         </button>
 
         <div class="row">
@@ -235,7 +235,7 @@ HTML_TEMPLATE = """
     </div>
 
     <div id="system" class="container">
-        <h2>Gerenciar PC</h2>
+        <h2>Gerenciador</h2>
         <div class="system-card">
             <div class="system-title">Monitoramento</div>
             <div class="monitor-box" id="sys-bar">CPU: --% | RAM: --%</div>

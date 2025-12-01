@@ -15,7 +15,7 @@ def run_app(app_name):
         'disney': 'https://www.disneyplus.com',
         'max': 'https://play.hbomax.com',
         'crunchyroll': 'https://www.crunchyroll.com/pt-br',
-        'Youtube': 'https://www.youtube.com'
+        'youtube': 'https://www.youtube.com'
     }
     if app_name in urls:
         webbrowser.open(urls[app_name])
