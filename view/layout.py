@@ -11,7 +11,7 @@ HTML_TEMPLATE = """
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Bereta Controller</title>
-    <link rel="icon" type="image/png" href="/public/img/bereta.ico">
+    <link rel="icon" type="image/png" href="/public/img/bereta.png">
     <style>
         body { background-color: #121212; color: #e0e0e0; font-family: sans-serif; margin: 0; padding-bottom: 80px; text-align: center; overflow-x: hidden; }
 
@@ -32,21 +32,18 @@ HTML_TEMPLATE = """
         .btn-blue { background: #1565c0; }
         .btn-orange { background: #ff9800; color: black; }
 
-        /* --- ESTILOS APPS E JOGOS --- */
+        /* --- ESTILOS ESPECÍFICOS --- */
         .app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .app-card { background: #1e1e1e; padding: 20px; border-radius: 10px; border: 1px solid #333; cursor: pointer;}
 
-        /* --- FAVORITOS --- */
         .fav-list { text-align: left; margin-top: 20px; }
         .fav-item { background: #222; padding: 15px; margin-bottom: 10px; border-radius: 10px; display: flex; justify-content: space-between; border-left: 4px solid #FFC107; cursor: pointer; }
         .add-fav-box { background: #333; padding: 15px; border-radius: 10px; margin-top: 20px; }
 
-        /* --- SISTEMA --- */
         .system-card { background: #222; border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #333; }
         .system-title { color: #aaa; font-size: 14px; margin-bottom: 10px; text-align: left; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
         .monitor-box { display: flex; justify-content: space-around; font-family: monospace; font-size: 18px; color: #00ff00; }
 
-        /* --- ARQUIVOS --- */
         .file-box { background: #222; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 2px dashed #444; }
         .file-list-item { background: #1a1a1a; padding: 15px; margin-bottom: 10px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333; }
         .file-btn { background: #2196F3; color: white; border: none; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-size: 14px;}
@@ -59,9 +56,9 @@ HTML_TEMPLATE = """
         .fs-btn { background: none; border: 2px solid white; color: white; width: 50px; height: 50px; border-radius: 50%; font-size: 20px; cursor: pointer; }
         .fs-btn.active { background: #2196F3; border-color: #2196F3; }
 
-        /* --- CONTROLES (Touchpad e D-Pad) --- */
+        /* --- CONTROLES --- */
         #touchpad { 
-            width: 90%; height: 250px; background: #2a2a2a; margin: 20px auto; 
+            width: 90%; height: 200px; background: #2a2a2a; margin: 20px auto; 
             border-radius: 15px; border: 2px dashed #444; 
             display: flex; justify-content: center; align-items: center; 
             color: #555; font-weight: bold; position: relative; overflow: hidden;
@@ -109,7 +106,7 @@ HTML_TEMPLATE = """
             <div class="app-card" onclick="fetch('/run/netflix')">📺 Netflix</div>
             <div class="app-card" onclick="fetch('/run/prime')">🎬 Prime Video</div>
             <div class="app-card" onclick="fetch('/run/ytmusic')">🎸 YT Music</div>
-            <div class="app-card" onclick="fetch('/run/chrome')">▶️YouTube /div>
+            <div class="app-card" onclick="fetch('/run/chrome')">🌐 Chrome</div>
             <div class="app-card" onclick="fetch('/run/disney')">🏰 Disney+</div>
             <div class="app-card" onclick="fetch('/run/max')">🟣 HBO Max</div>
             <div class="app-card" onclick="fetch('/run/crunchyroll')">🟠 Crunchyroll</div>
@@ -128,7 +125,7 @@ HTML_TEMPLATE = """
         <div class="add-fav-box">
             <h4>Adicionar Novo:</h4>
             <form action="/add_fav" method="post">
-                <input type="text" name="nome" placeholder="Nome" required>
+                <input type="text" name="nome" placeholder="Nome (ex: Curso)" required>
                 <input type="text" name="url" placeholder="Link" required>
                 <button class="search-btn" style="width:100%">Salvar Favorito</button>
             </form>
@@ -136,20 +133,25 @@ HTML_TEMPLATE = """
     </div>
 
     <div id="games" class="container">
-        <h2>Meus Aplicativos</h2>
+        <h2>Meus Jogos</h2>
         <div class="app-grid">
             {% for jogo in lista_jogos %}
             <div class="app-card" onclick="fetch('/launch_game/{{ jogo.nome }}')">🎮 {{ jogo.nome }}</div>
             {% endfor %}
         </div>
-        {% if not lista_jogos %}<p style="margin-top:20px; color:#666;">Adicione jogos na aba "Meus Aplicativos" no PC.</p>{% endif %}
+        {% if not lista_jogos %}<p style="margin-top:20px; color:#666;">Adicione jogos na aba "Meus Jogos" no PC.</p>{% endif %}
     </div>
 
     <div id="music" class="container">
         <form action="/music_search" method="post">
-            <input type="text" name="term" placeholder="Música..." autocomplete="off">
+            <input type="text" name="term" placeholder="Música, Artista..." autocomplete="off">
             <button class="search-btn" style="background:#ff0000">Buscar</button>
         </form>
+
+        <button class="btn" style="margin-top:10px; background:#222; border:1px solid #444;" 
+                onclick="fetch('/play_music_url?link=https://music.youtube.com')">
+            🏠 Abrir Início / Resume
+        </button>
 
         <div class="row" style="margin-top:15px; background:#222; padding:10px; border-radius:15px;">
             <button class="btn" style="padding:15px; font-size:20px;" onclick="fetch('/cmd/prev')">⏮</button>
@@ -184,7 +186,7 @@ HTML_TEMPLATE = """
 
     <div id="caster" class="container">
         <form action="/search" method="post">
-            <input type="text" name="term" placeholder="Google/Bing..." autocomplete="off">
+            <input type="text" name="term" placeholder="Buscar no Google/Bing..." autocomplete="off">
             <button class="search-btn">Ir</button>
         </form>
         <div id="results">{{ results|safe }}</div>
@@ -192,7 +194,7 @@ HTML_TEMPLATE = """
 
     <div id="control" class="container">
         <button class="btn btn-blue" onclick="openFS()" style="margin-bottom:20px; border:2px solid cyan;">
-            👁️ Espelhamento
+            👁️ TELA CHEIA / ZOOM
         </button>
 
         <div class="row">
@@ -334,12 +336,8 @@ HTML_TEMPLATE = """
             if (modeMouse) fetch('/cmd/click_left');
         });
 
-        // Touchpad Pequeno (Miniatura)
+        // Touchpad Pequeno
         const touchZone = document.getElementById('touchpad');
-        const screenImg = document.getElementById('screen-img');
-        const touchText = document.getElementById('touch-text');
-
-
         if(touchZone) {
             let tStartX, tStartY;
             touchZone.addEventListener('touchstart', (e) => { tStartX = e.touches[0].clientX; tStartY = e.touches[0].clientY; });
@@ -378,7 +376,9 @@ HTML_TEMPLATE = """
         }
     </script>
 </body>
-</html>"""
+</html>
+"""
+
 
 def render_page(active_tab="apps", results=""):
     jogos_data = games_manager.carregar_jogos_json()
